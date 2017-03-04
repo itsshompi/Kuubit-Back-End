@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -10,6 +11,9 @@ import (
 const (
 	privKeyPath = "keys/app.rsa"
 	pubKeyPath  = "keys/app.rsa.pub"
+	port        = ":8080"
+	serverCert  = "server.crt"
+	serverKey   = "server.key"
 )
 
 func helloServer(w http.ResponseWriter, req *http.Request) {
@@ -20,7 +24,9 @@ func helloServer(w http.ResponseWriter, req *http.Request) {
 func main() {
 	http.HandleFunc("/", helloServer)
 	http.HandleFunc("/login", handler.LoginHandler)
-	err := http.ListenAndServeTLS(":8080", "server.crt", "server.key", nil)
+	http.HandleFunc("/check", handler.AuthHandler)
+	fmt.Println("Server is running in https://localhost" + port)
+	err := http.ListenAndServeTLS(port, serverCert, serverKey, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
