@@ -38,3 +38,23 @@ func createDbSession() {
 		log.Fatalf("[createDbSession]: %s\n", err)
 	}
 }
+
+// Add indexes into MongoDB
+func addIndexes() {
+	var err error
+	userIndex := mgo.Index{
+		Key:        []string{"email"},
+		Unique:     true,
+		Background: true,
+		Sparse:     true,
+	}
+	// Add indexes into MongoDB
+	session := GetSession().Copy()
+	defer session.Close()
+	userCol := session.DB(AppConfig.Database).C("users")
+
+	err = userCol.EnsureIndex(userIndex)
+	if err != nil {
+		log.Fatalf("[addIndexes]: %s\n", err)
+	}
+}
