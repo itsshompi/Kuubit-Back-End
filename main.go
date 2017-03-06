@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	handler "github.com/itsshompi/kuubit-backend/handlers"
+	"github.com/itsshompi/kuubit-backend/controllers"
 )
 
 const (
@@ -21,8 +21,8 @@ func helloServer(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	http.HandleFunc("/", helloServer)
-	http.HandleFunc("/login", handler.LoginHandler)
-	http.HandleFunc("/check", handler.AuthHandler)
+	http.HandleFunc("/login", controllers.LoginHandler)
+	http.HandleFunc("/check", controllers.AuthHandler)
 	fmt.Println("Server is running in https://localhost" + port)
 	err := http.ListenAndServeTLS(port, privKeyPath, pubKeyPath, nil)
 	if err != nil {
