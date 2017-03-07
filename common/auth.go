@@ -15,10 +15,8 @@ import (
 // using asymmetric crypto/RSA keys
 // location of private/public key files
 const (
-	// openssl genrsa -out app.rsa 1024
 	privKeyPath = "keys/server.crt"
-	// openssl rsa -in app.rsa -pubout > app.rsa.pub
-	pubKeyPath = "keys/server.key"
+	pubKeyPath  = "keys/server.key"
 )
 
 var (

@@ -8,17 +8,18 @@ import (
 
 //User is a struct for mongodb model
 type User struct {
-	ID        bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Name      string        `json:"name"`
-	Email     string        `json:"email"`
-	Password  string        `json:"password"`
-	Slug      string        `json:"slug"`
-	Bio       string        `json:"bio"`
-	Avatar    []Avatar      `json:"avatar"`
-	Account   Account       `json:"account"`
-	Address   Address       `json:"addess"`
-	CreatedAt time.Time     `json:"created_at"`
-	UpdateAt  time.Time     `json:"updated_at"`
+	ID           bson.ObjectId `bson:"_id,omitempty" json:"id"`
+	Name         string        `json:"name"`
+	Email        string        `json:"email"`
+	Password     string        `json:"password,omitempty"`
+	HashPassword []byte        `json:"hashpassword,omitempty"`
+	Slug         string        `json:"slug"`
+	Bio          string        `json:"bio"`
+	Avatar       []Avatar      `json:"avatar"`
+	Account      Account       `json:"account"`
+	Address      Address       `json:"addess"`
+	CreatedAt    time.Time     `json:"created_at"`
+	UpdateAt     time.Time     `json:"updated_at"`
 }
 
 //Avatar is a struct for user struct
