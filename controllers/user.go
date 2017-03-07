@@ -9,7 +9,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/itsshompi/kuubit-backend/common"
-	"github.com/itsshompi/kuubit-backend/data"
 	"github.com/itsshompi/kuubit-backend/models"
 )
 
@@ -66,7 +65,7 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 	context := NewContext()
 	defer context.Close()
 	col := context.DbCollection("users")
-	repo := &data.UserRepository{C: col}
+	repo := &UserRepository{C: col}
 	// Insert User document
 	repo.CreateUser(user)
 	// Clean-up the hashpassword to eliminate it from response JSON
@@ -87,7 +86,7 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// Login authenticates the HTTP request with username and apssword
+// LoginController authenticates the HTTP request with username and apssword
 // Handler for HTTP Post - "/users/login"
 func LoginController(w http.ResponseWriter, r *http.Request) {
 	var dataResource LoginResource
@@ -111,7 +110,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	context := NewContext()
 	defer context.Close()
 	col := context.DbCollection("users")
-	repo := &data.UserRepository{C: col}
+	repo := &UserRepository{C: col}
 	// Authenticate the login user
 	user, err := repo.Login(loginUser)
 	if err != nil {
@@ -124,7 +123,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Generate JWT token
-	token, err = common.GenerateJWT(user.Email, "member")
+	token, err = common.GenerateJWT(user.ID.Hex(), "member")
 	if err != nil {
 		common.DisplayAppError(
 			w,

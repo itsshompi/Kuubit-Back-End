@@ -1,9 +1,14 @@
 package routers
 
-import "github.com/gorilla/mux"
+import (
+	"github.com/gorilla/mux"
+	"github.com/itsshompi/kuubit-backend/controllers"
+)
 
+//SetUserRoutes is
 func SetUserRoutes(router *mux.Router) *mux.Router {
-	router.HandleFunc("/users/register", controllers.Register).Methods("POST")
-	router.HandleFunc("/users/login", controllers.Login).Methods("POST")
+	router.HandleFunc("/signup", controllers.RegisterController).Methods("POST")
+	router.HandleFunc("/login", controllers.LoginController).Methods("POST")
+	router.HandleFunc("/home", controllers.HomeController).Methods("GET")
 	return router
 }

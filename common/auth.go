@@ -15,8 +15,8 @@ import (
 // using asymmetric crypto/RSA keys
 // location of private/public key files
 const (
-	privKeyPath = "keys/server.crt"
-	pubKeyPath  = "keys/server.key"
+	privKeyPath = "keys/privKey.key"
+	pubKeyPath  = "keys/pubKey.pem"
 )
 
 var (
@@ -30,31 +30,30 @@ func initKeys() {
 
 	signBytes, err := ioutil.ReadFile(privKeyPath)
 	if err != nil {
-		log.Fatalf("[initKeys]: %s\n", err)
+		log.Fatalf("[initKeys0]: %s\n", err)
 	}
 
 	signKey, err = jwt.ParseRSAPrivateKeyFromPEM(signBytes)
 	if err != nil {
-		log.Fatalf("[initKeys]: %s\n", err)
+		log.Fatalf("[initKeys1]: %s\n", err)
 	}
 
 	verifyBytes, err := ioutil.ReadFile(pubKeyPath)
 	if err != nil {
-		log.Fatalf("[initKeys]: %s\n", err)
+		log.Fatalf("[initKeys2]: %s\n", err)
 	}
 
 	verifyKey, err = jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
 	if err != nil {
-		log.Fatalf("[initKeys]: %s\n", err)
+		log.Fatalf("[initKeys3]: %s\n", err)
 	}
 }
 
 // GenerateJWT generates a new JWT token
-func GenerateJWT(id, name, role string) (string, error) {
+func GenerateJWT(id, role string) (string, error) {
 	// Create the Claims
 	claims := jwt.MapClaims{
 		"id":   id,
-		"name": name,
 		"role": role,
 		"exp":  time.Now().Add(time.Minute * 20).Unix(),
 	}

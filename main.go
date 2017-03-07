@@ -5,26 +5,25 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/itsshompi/kuubit-backend/controllers"
+	"github.com/codegangsta/negroni"
+	"github.com/itsshompi/kuubit-api-go/routers"
 )
 
 const (
-	privKeyPath = "keys/server.crt"
-	pubKeyPath  = "keys/server.key"
-	port        = ":8080"
+	privKeyPath = "keys/privKey.key"
+	pubKeyPath  = "keys/pubKey.pem"
+	port        = ":9999"
 )
 
-func helloServer(w http.ResponseWriter, req *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte("{name: Kuubit API, version: 1.0.1}"))
-}
-
 func main() {
-	http.HandleFunc("/", helloServer)
-	http.HandleFunc("/login", controllers.LoginHandler)
-	http.HandleFunc("/check", controllers.AuthHandler)
+	//common.StartUp() - Replaced with init method
+	// Get the mux router object
+	router := routers.InitRoutes()
+	// Create a negroni instance
+	n := negroni.Classic()
+	n.UseHandler(router)
 	fmt.Println("Server is running in https://localhost" + port)
-	err := http.ListenAndServeTLS(port, privKeyPath, pubKeyPath, nil)
+	err := http.ListenAndServeTLS(port, pubKeyPath, privKeyPath, n)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
