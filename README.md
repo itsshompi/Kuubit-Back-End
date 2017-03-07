@@ -1,10 +1,10 @@
 # kuubit-backend
 
 
-API REST ROUTES
+### Kuubit API Routes
 
 | Route      |      Method   |  Params                      |  Return                   | Content-Type     |
-|:----------:|:-------------:|:----------------------------:|:-------------------------:|:----------------:|
-| /          |  GET          | None                         | name, version, created_by | application/json |
+|:-----------|:-------------:|:-----------------------------|:--------------------------|:-----------------|
+| /          |  GET          | None                         | name, description, version, webiste, url, repository, created_by, github, contact | application/json |
 | /login     |  POST         | email, password              | name, avatar, slug, token | application/json |
 | /signup    |  POST         | name, email, slug, password  | name, avatar, slug, token | application/json |

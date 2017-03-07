@@ -9,6 +9,6 @@ import (
 func SetUserRoutes(router *mux.Router) *mux.Router {
 	router.HandleFunc("/signup", controllers.RegisterController).Methods("POST")
 	router.HandleFunc("/login", controllers.LoginController).Methods("POST")
-	router.HandleFunc("/home", controllers.HomeController).Methods("GET")
+	router.HandleFunc("/", controllers.HomeController).Methods("GET")
 	return router
 }

@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/codegangsta/negroni"
-	"github.com/itsshompi/kuubit-api-go/routers"
+	"github.com/itsshompi/kuubit-backend/routers"
 )
 
 const (

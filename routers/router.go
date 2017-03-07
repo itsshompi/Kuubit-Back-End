@@ -9,6 +9,6 @@ func InitRoutes() *mux.Router {
 	router := mux.NewRouter()
 	// Routes for the User entity
 	router = SetUserRoutes(router)
-
+	router = SetHomeRoutes(router)
 	return router
 }

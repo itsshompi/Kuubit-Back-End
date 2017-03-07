@@ -15,7 +15,7 @@ type User struct {
 	HashPassword []byte        `json:"hashpassword,omitempty"`
 	Slug         string        `json:"slug"`
 	Bio          string        `json:"bio"`
-	Avatar       []Avatar      `json:"avatar"`
+	Avatar       Avatar        `json:"avatar"`
 	Account      Account       `json:"account"`
 	Address      Address       `json:"addess"`
 	CreatedAt    time.Time     `json:"created_at"`
