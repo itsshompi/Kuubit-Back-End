@@ -16,23 +16,49 @@ type (
 	errorResource struct {
 		Data appError `json:"data"`
 	}
+	appMessage struct {
+		Message    string `json:"message"`
+		HTTPStatus int    `json:"status"`
+		Code       int    `json:"code"`
+	}
+	messageResource struct {
+		Data appMessage `json:"data"`
+	}
 	configuration struct {
-		Server, MongoDBHost, DBUser, DBPwd, Database string
-		LogLevel                                     int
+		Server      string
+		MongoDBHost string
+		DBUser      string
+		DBPwd       string
+		Database    string
+		LogLevel    int
 	}
 )
 
 //DisplayAppError ...
-func DisplayAppError(w http.ResponseWriter, handlerError error, message string, code int) {
+func DisplayAppError(w http.ResponseWriter, handlerError error, message string, status int) {
 	errObj := appError{
 		Error:      handlerError.Error(),
 		Message:    message,
-		HTTPStatus: code,
+		HTTPStatus: status,
 	}
 	log.Printf("[AppError]: %s\n", handlerError)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.WriteHeader(code)
+	w.WriteHeader(status)
 	if j, err := json.Marshal(errorResource{Data: errObj}); err == nil {
+		w.Write(j)
+	}
+}
+
+//DisplayAppMessage is...
+func DisplayAppMessage(w http.ResponseWriter, message string, status int, code int) {
+	msgObj := appMessage{
+		Message:    message,
+		HTTPStatus: status,
+		Code:       code,
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(status)
+	if j, err := json.Marshal(messageResource{Data: msgObj}); err == nil {
 		w.Write(j)
 	}
 }

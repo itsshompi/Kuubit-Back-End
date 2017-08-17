@@ -4,12 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/itsshompi/kuubit-backend/common"
+	"github.com/itsshompi/kuubit-backend/models"
 	"golang.org/x/crypto/bcrypt"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-
-	"github.com/itsshompi/kuubit-backend/common"
-	"github.com/itsshompi/kuubit-backend/models"
 )
 
 //UserRepository ...
@@ -62,13 +61,28 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user := &dataResource.Data
+	if user.Name == "" {
+		common.DisplayAppMessage(w, T("error_name"), 401, 1)
+		return
+	}
+	if user.Username == "" {
+		common.DisplayAppMessage(w, "Username is empty", 401, 2)
+		return
+	}
+	if user.Email == "" {
+		common.DisplayAppMessage(w, "Email is empty", 401, 3)
+		return
+	}
+	if user.Password == "" {
+		common.DisplayAppMessage(w, "Password is empty", 401, 4)
+		return
+	}
 	context := NewContext()
 	defer context.Close()
 	col := context.DbCollection("users")
 	repo := &UserRepository{C: col}
-	// Insert User document
+
 	repo.CreateUser(user)
-	// Clean-up the hashpassword to eliminate it from response JSON
 	user.HashPassword = nil
 	j, err := json.Marshal(UserResource{Data: *user})
 	if err != nil {

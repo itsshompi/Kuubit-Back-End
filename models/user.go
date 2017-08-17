@@ -13,7 +13,7 @@ type User struct {
 	Email        string        `json:"email"`
 	Password     string        `json:"password,omitempty"`
 	HashPassword []byte        `json:"hashpassword,omitempty"`
-	Slug         string        `json:"slug"`
+	Username     string        `json:"username"`
 	Bio          string        `json:"bio"`
 	Avatar       Avatar        `json:"avatar"`
 	Account      Account       `json:"account"`
